@@ -2,7 +2,7 @@
 
 [![](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml/badge.svg)](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml)
 
-Template repository for deploying SRS to any K8s service by kubectl.
+Template repository for deploying SRS to any K8s service by GitHub Actions.
 
 ## Usage
 
