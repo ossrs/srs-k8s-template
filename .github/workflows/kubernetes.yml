@@ -13,7 +13,7 @@ jobs:
       KUBECONFIG: ${{ secrets.KUBECONFIG }}
     runs-on: ubuntu-20.04
 
-    if: github.event.repository.name != 'srs-k8s-template' && KUBECONFIG != ''
+    if: github.event.repository.name != 'srs-k8s-template'
     steps:
       - name: Dump context
         uses: crazy-max/ghaction-dump-context@v1
@@ -22,11 +22,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set K8s context
+        if: env.KUBECONFIG != ''
         uses: ossrs/k8s-set-context-action@v1
         with:
           kubeconfig: '${{ secrets.KUBECONFIG }}'
 
       - name: Deploy SRS
+        if: env.KUBECONFIG != ''
         run: |
           # Deploy the Docker image to the K8s cluster
           kubectl apply -f srs.yaml
@@ -34,6 +36,7 @@ jobs:
       # (Optional) Set env SRS_EIP
       #   SRS_EIP 81.70.125.89
       - name: Get EIP of SRS
+        if: env.KUBECONFIG != ''
         continue-on-error: true
         run: |
           # Show the website if ready
