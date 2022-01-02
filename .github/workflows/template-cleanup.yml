@@ -12,7 +12,7 @@ jobs:
   template-cleanup:
     name: Template Cleanup
     runs-on: ubuntu-latest
-    if: github.event.repository.name != 'srs-tke-template'
+    if: github.event.repository.name != 'srs-k8s-template'
     steps:
 
       # Check out current repository
@@ -26,7 +26,7 @@ jobs:
         run: |
           # Prepare variables.
           NAME="${GITHUB_REPOSITORY##*/}"
-          TMPL_NAME="srs-tke-template"
+          TMPL_NAME="srs-k8s-template"
 
           # Replace repository name and links.
           sed -i "s|ossrs/$TMPL_NAME|${{ github.repository }}|g" README.md

@@ -1,5 +1,5 @@
 
-name: Deploy SRS to TKE
+name: Deploy SRS to K8s
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
   k8s:
     name: release-k8s
     runs-on: ubuntu-20.04
-    if: github.event.repository.name != 'srs-tke-template'
+    #if: github.event.repository.name != 'srs-k8s-template'
     steps:
 
       - name: Checkout
