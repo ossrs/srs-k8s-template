@@ -8,7 +8,7 @@ Template repository for deploying SRS to any K8s service by kubectl.
 
 **Step 1:** Create K8s cluster, update the kubeconfig, check by `kubectl cluster-info`:
 
-* [TKE(Tencent Kubernetes Engine)](https://console.cloud.tencent.com/tke2/cluster?rid=8), [Doc](https://cloud.tencent.com/document/product/457/54231).
+* [TKE(Tencent Kubernetes Engine)](https://console.cloud.tencent.com/tke2/cluster?rid=8), see [doc](https://cloud.tencent.com/document/product/457/54231).
 * [ACK(Alibaba Cloud Container Service for Kubernetes)](https://cs.console.aliyun.com/)
 * [EKS(Amazon Elastic Kubernetes Service)](https://console.aws.amazon.com/eks/home#/clusters)
 * [AKS(Azure Kubernetes Service)](https://portal.azure.com/#create/microsoft.aks)
