@@ -27,14 +27,16 @@ jobs:
           kubectl apply -f srs.yaml
 
           # Show the website if ready
-          for ((i=0; i<10; i++)); do
-            EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}' |grep -v pending)
-            if [[ $EIP != '' ]]; then
+          for ((i=0; i<30; i++)); do
+            EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
+            if [[ $EIP != '<pending>' ]]; then
+              echo ""
               echo "Website:"
               echo "  http://${EIP}:8080"
               break
             fi
 
+            echo ""
             echo "Waiting for K8s ready"
             kubectl get deploy/srs-deployment
             kubectl get svc/srs-service
