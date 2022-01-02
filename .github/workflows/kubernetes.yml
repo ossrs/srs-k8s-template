@@ -21,12 +21,22 @@ jobs:
         with:
           kubeconfig: '${{ secrets.KUBECONFIG }}'
 
-      # Deploy the Docker image to the K8s cluster
       - name: Deploy
         run: |
+          # Deploy the Docker image to the K8s cluster
           kubectl apply -f srs.yaml
-          kubectl get deploy/srs-deployment
-          kubectl get svc/srs-service
-          EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
-          echo "Website:"
-          echo "  http://${EIP}:8080"
+
+          # Show the website if ready
+          for ((i=0; i<10; i++)); do
+            EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}' |grep -v pending)
+            if [[ $EIP != '' ]]; then
+              echo "Website:"
+              echo "  http://${EIP}:8080"
+              break
+            fi
+
+            echo "Waiting for K8s ready"
+            kubectl get deploy/srs-deployment
+            kubectl get svc/srs-service
+            sleep 1
+          done
