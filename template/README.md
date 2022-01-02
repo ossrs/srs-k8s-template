@@ -22,8 +22,8 @@ Template repository for deploying SRS to any K8s service by GitHub Actions.
 * Website is http://81.70.125.89:8080
 * Publish RTMP to rtmp://81.70.125.89/live/livestream
 * Play RTMP from rtmp://81.70.125.89/live/livestream
-* Play HTTP-FLV from http://81.70.125.89:8080/live/livestream.flv
-* Play HLS from http://81.70.125.89:8080/live/livestream.m3u8
+* Play HTTP-FLV from [http://81.70.125.89:8080/live/livestream.flv](http://81.70.125.89:8080/players/srs_player.html?stream=livestream.flv&&autostart=true)
+* Play HLS from [http://81.70.125.89:8080/live/livestream.m3u8](http://81.70.125.89:8080/players/srs_player.html?stream=livestream.m3u8&&autostart=true)
 
 Try to motify the [srs.yaml](srs.yaml), then push to your repository, your K8s will be updated automatically.
 
