@@ -17,7 +17,7 @@ Template repository for deploying SRS to any K8s service by kubectl.
 
 * `KUBECONFIG` is the config of K8s, for example, the content of `cat $HOME/.kube/config`.
 
-**Step 3:** Run <kbd>Actions</kbd> to deploy to your K8s, for example, if your external IP is `81.70.125.89`:
+**Step 3:** Re-run [Actions](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml) to deploy to your K8s, for example, if your external IP is `81.70.125.89`:
 
 * Website is http://81.70.125.89:8080
 * Publish RTMP to rtmp://81.70.125.89/live/livestream
