@@ -6,3 +6,5 @@ Template repository for deploying SRS to any K8s service by GitHub Actions.
 
 Click the <kbd>Use this template</kbd> to create your repository, then follow the usage.
 
+* [Bilibili: SRS-027-用K8s零命令行部署SRS](https://www.bilibili.com/video/BV1g44y1j7Vz/)
+
