@@ -1,0 +1,50 @@
+# This workflow is supposed to be triggered automatically when a new template-based repository has been created.
+# @see https://github.com/JetBrains/intellij-platform-plugin-template/blob/main/.github/workflows/template-cleanup.yml
+# @see https://docs.github.com/en/actions/learn-github-actions/contexts#github-context
+
+name: Template Cleanup
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  template-cleanup:
+    name: Template Cleanup
+    runs-on: ubuntu-latest
+    if: github.event.repository.name != 'srs-tke-template'
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2.4.0
+
+      # Cleanup project
+      #   github.repository   Codertocat/Hello-World
+      #   NAME                Hello-World
+      - name: Cleanup
+        run: |
+          # Prepare variables.
+          NAME="${GITHUB_REPOSITORY##*/}"
+          TMPL_NAME="srs-tke-template"
+
+          # Replace repository name and links.
+          sed -i "s|ossrs/$TMPL_NAME|${{ github.repository }}|g" README.md
+          sed -i "s/$TMPL_NAME/$NAME/g" README.md
+
+          # Cleanup
+          rm -f .github/workflows/template-cleanup.yml
+
+      # Commit modified files
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Template cleanup"
+      # Push changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}

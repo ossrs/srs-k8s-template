@@ -1,0 +1,86 @@
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: srs-config
+data:
+  srs.conf: |-
+    listen              1935;
+    max_connections     1000;
+    daemon              off;
+    http_api {
+        enabled         on;
+        listen          1985;
+    }
+    http_server {
+        enabled         on;
+        listen          8080;
+    }
+    vhost __defaultVhost__ {
+        http_remux {
+            enabled     on;
+        }
+        hls {
+            enabled         on;
+            hls_dispose     30;
+        }
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: srs-deployment
+  labels:
+    app: srs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: srs
+  template:
+    metadata:
+      labels:
+        app: srs
+    spec:
+      volumes:
+      - name: config-volume
+        configMap:
+          name: srs-config
+      containers:
+      - name: srs
+        image: ossrs/srs:3
+        ports:
+        - containerPort: 1935
+        - containerPort: 1985
+        - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/local/srs/conf
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: srs-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: srs
+  ports:
+  - name: srs-service-1935-1935
+    port: 1935
+    protocol: TCP
+    targetPort: 1935
+  - name: srs-service-1985-1985
+    port: 1985
+    protocol: TCP
+    targetPort: 1985
+  - name: srs-service-8080-8080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+

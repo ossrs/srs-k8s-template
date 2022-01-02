@@ -1,2 +1,29 @@
 # srs-k8s-template
-Template repository for deploying SRS to K8s service
+
+[![](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml/badge.svg)](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml)
+
+Template repository for deploying SRS to any K8s service by kubectl.
+
+## Usage
+
+**Step 1:** Create K8s cluster:
+
+* [TKE(Tencent Kubernetes Engine)](https://github.com/ossrs/srs-tke-template#usage)
+* [ACK(Alibaba Cloud Container Service for Kubernetes)](https://github.com/ossrs/srs-ack-template#usage)
+* [EKS(Amazon Elastic Kubernetes Service)](https://github.com/ossrs/srs-eks-template#usage)
+* [AKS(Azure Kubernetes Service)](https://github.com/ossrs/srs-aks-template#usage)
+
+**Step 2:** Click the <kbd>Use this template</kbd> to create your repository, then set the [secrets](https://github.com/ossrs/srs-tke-template/settings/secrets/actions):
+
+1. `KUBE_CONFIG` is the `KUBECONFIG` of K8s.
+
+**Step 3:** Run <kbd>Actions</kbd> to deploy to your K8s, for example, if your external IP is `49.233.120.79`:
+
+* Website is http://49.233.120.79:8080
+* Publish RTMP to rtmp://49.233.120.79/live/livestream
+* Play RTMP from rtmp://49.233.120.79/live/livestream
+* Play HTTP-FLV from http://49.233.120.79:8080/live/livestream.flv
+* Play HLS from http://49.233.120.79:8080/live/livestream.m3u8
+
+Try to motify the [srs.yaml](srs.yaml), then push to your repository, your K8s will be updated automatically.
+

@@ -1,0 +1,37 @@
+
+name: Deploy SRS to TKE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  k8s:
+    name: release-k8s
+    runs-on: ubuntu-20.04
+    if: github.event.repository.name != 'srs-tke-template'
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set K8s context
+        uses: ossrs/k8s-set-context@v1
+        with:
+          kubeconfig: '${{ secrets.KUBECONFIG }'
+
+      - name: Run K8s
+        run: |-
+          kubectl cluster-info
+
+      # Deploy the Docker image to the K8s cluster
+      - name: Deploy
+        run: |
+          kubectl cluster-info
+          #kubectl apply -f srs.yaml
+          #kubectl get deploy/srs-deployment
+          #kubectl get svc/srs-service
+          #EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
+          #echo "Website:"
+          #echo "  http://${EIP}:8080"
