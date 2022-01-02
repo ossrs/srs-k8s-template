@@ -9,8 +9,11 @@ on:
 jobs:
   k8s:
     name: release-k8s
+    env:
+      KUBECONFIG: ${{ secrets.KUBECONFIG }}
     runs-on: ubuntu-20.04
-    if: github.event.repository.name != 'srs-k8s-template' && secrets.KUBECONFIG != ''
+
+    if: github.event.repository.name != 'srs-k8s-template' && KUBECONFIG != ''
     steps:
       - name: Dump context
         uses: crazy-max/ghaction-dump-context@v1
