@@ -9,26 +9,28 @@ on:
 jobs:
   k8s:
     name: release-k8s
-    env:
-      KUBECONFIG: ${{ secrets.KUBECONFIG }}
     runs-on: ubuntu-20.04
 
     if: github.event.repository.name != 'srs-k8s-template'
     steps:
-      - name: Dump context
-        uses: crazy-max/ghaction-dump-context@v1
+      - name: Check secrets.KUBECONFIG
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        run: |
+          if [[ $KUBECONFIG == '' ]]; then
+            echo 'Please set the KUBECONFIG at Settings/Secrets'
+            exit 1
+          fi
 
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Set K8s context
-        if: env.KUBECONFIG != ''
         uses: ossrs/k8s-set-context-action@v1
         with:
           kubeconfig: '${{ secrets.KUBECONFIG }}'
 
       - name: Deploy SRS
-        if: env.KUBECONFIG != ''
         run: |
           # Deploy the Docker image to the K8s cluster
           kubectl apply -f srs.yaml
@@ -36,8 +38,6 @@ jobs:
       # (Optional) Set env SRS_EIP
       #   SRS_EIP 81.70.125.89
       - name: Get EIP of SRS
-        if: env.KUBECONFIG != ''
-        continue-on-error: true
         run: |
           # Show the website if ready
           for ((i=0; i<30; i++)); do
@@ -60,24 +60,26 @@ jobs:
           done
 
       # (Optional) Update README if EIP changed.
-      #- name: Update README
-      #  continue-on-error: true
-      #  run: |
-      #    EIP=$(grep 'Publish RTMP to rtmp' README.md |awk -F '://' '{print $2}'| awk -F '/' '{print $1}')
-      #    if [[ $EIP != '' && $EIP != $SRS_EIP ]]; then
-      #      sed -i "s/$EIP/$SRS_EIP/g" README.md
-      #      echo "README_CHANGED=true" >> $GITHUB_ENV
-      #    fi
-      ## Commit modified files
-      #- name: Commit files
-      #  run: |
-      #    git config --local user.email "action@github.com"
-      #    git config --local user.name "GitHub Action"
-      #    git add .
-      #    git commit -m "Update README if EIP changed."
-      ## Push changes
-      #- name: Push changes
-      #  uses: ad-m/github-push-action@master
-      #  with:
-      #    branch: main
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update README
+        continue-on-error: true
+        run: |
+          EIP=$(grep 'Publish RTMP to rtmp' README.md |awk -F '://' '{print $2}'| awk -F '/' '{print $1}')
+          if [[ $EIP != '' && $EIP != $SRS_EIP ]]; then
+            sed -i "s/$EIP/$SRS_EIP/g" README.md
+            echo "README_CHANGED=true" >> $GITHUB_ENV
+          fi
+      # (Optional) Commit modified files
+      - name: Commit files
+        if: env.README_CHANGED == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Update README if EIP changed."
+      # (Optional) Push changes
+      - name: Push changes
+        if: env.README_CHANGED == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
