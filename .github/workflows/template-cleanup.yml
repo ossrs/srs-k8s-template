@@ -26,14 +26,16 @@ jobs:
         run: |
           # Prepare variables.
           NAME="${GITHUB_REPOSITORY##*/}"
-          TMPL_NAME="srs-k8s-template"
+          TMPL_NAME="%NAME%"
 
           # Replace repository name and links.
+          cp template/README.md .
           sed -i "s|ossrs/$TMPL_NAME|${{ github.repository }}|g" README.md
           sed -i "s/$TMPL_NAME/$NAME/g" README.md
 
           # Cleanup
           rm -f .github/workflows/template-cleanup.yml
+          rm -rf template
 
       # Commit modified files
       - name: Commit files
