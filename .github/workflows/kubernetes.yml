@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.event.repository.name != 'srs-k8s-template'
     steps:
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -21,15 +23,23 @@ jobs:
         with:
           kubeconfig: '${{ secrets.KUBECONFIG }}'
 
-      - name: Deploy
+      - name: Deploy SRS
         run: |
           # Deploy the Docker image to the K8s cluster
           kubectl apply -f srs.yaml
 
+      # (Optional) Set env SRS_EIP
+      #   SRS_EIP 81.70.125.89
+      - name: Get EIP of SRS
+        continue-on-error: true
+        run: |
           # Show the website if ready
           for ((i=0; i<30; i++)); do
             EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
             if [[ $EIP != '<pending>' ]]; then
+              # Export as SRS_EIP
+              echo "SRS_EIP=$EIP" >> $GITHUB_ENV
+
               echo ""
               echo "Website:"
               echo "  http://${EIP}:8080"
@@ -42,3 +52,26 @@ jobs:
             kubectl get svc/srs-service
             sleep 1
           done
+
+      # (Optional) Update README if EIP changed.
+      #- name: Update README
+      #  continue-on-error: true
+      #  run: |
+      #    EIP=$(grep 'Publish RTMP to rtmp' README.md |awk -F '://' '{print $2}'| awk -F '/' '{print $1}')
+      #    if [[ $EIP != '' && $EIP != $SRS_EIP ]]; then
+      #      sed -i "s/$EIP/$SRS_EIP/g" README.md
+      #      echo "README_CHANGED=true" >> $GITHUB_ENV
+      #    fi
+      ## Commit modified files
+      #- name: Commit files
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub Action"
+      #    git add .
+      #    git commit -m "Update README if EIP changed."
+      ## Push changes
+      #- name: Push changes
+      #  uses: ad-m/github-push-action@master
+      #  with:
+      #    branch: main
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
