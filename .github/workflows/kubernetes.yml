@@ -17,21 +17,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set K8s context
-        uses: ossrs/k8s-set-context@v1
+        uses: ossrs/k8s-set-context-action@v1
         with:
           kubeconfig: '${{ secrets.KUBECONFIG }}'
-
-      - name: Run K8s
-        run: |-
-          kubectl cluster-info
 
       # Deploy the Docker image to the K8s cluster
       - name: Deploy
         run: |
-          kubectl cluster-info
-          #kubectl apply -f srs.yaml
-          #kubectl get deploy/srs-deployment
-          #kubectl get svc/srs-service
-          #EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
-          #echo "Website:"
-          #echo "  http://${EIP}:8080"
+          kubectl apply -f srs.yaml
+          kubectl get deploy/srs-deployment
+          kubectl get svc/srs-service
+          EIP=$(kubectl get svc/srs-service |grep srs-service |awk '{print $4}')
+          echo "Website:"
+          echo "  http://${EIP}:8080"
