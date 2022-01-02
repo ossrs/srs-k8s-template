@@ -15,7 +15,7 @@ Template repository for deploying SRS to any K8s service by kubectl.
 
 **Step 2:** Click the <kbd>Use this template</kbd> to create your repository, then set the [secrets](https://github.com/ossrs/srs-k8s-template/settings/secrets/actions):
 
-1. `KUBECONFIG` is the config of K8s, for example, the content of `cat $HOME/.kube/config`.
+* `KUBECONFIG` is the config of K8s, for example, the content of `cat $HOME/.kube/config`.
 
 **Step 3:** Run <kbd>Actions</kbd> to deploy to your K8s, for example, if your external IP is `81.70.125.89`:
 
