@@ -15,15 +15,15 @@ Template repository for deploying SRS to any K8s service by kubectl.
 
 **Step 2:** Click the <kbd>Use this template</kbd> to create your repository, then set the [secrets](https://github.com/ossrs/srs-tke-template/settings/secrets/actions):
 
-1. `KUBE_CONFIG` is the `KUBECONFIG` of K8s.
+1. `KUBECONFIG` is the config of K8s, for example, the content of `cat $HOME/.kube/config`.
 
-**Step 3:** Run <kbd>Actions</kbd> to deploy to your K8s, for example, if your external IP is `49.233.120.79`:
+**Step 3:** Run <kbd>Actions</kbd> to deploy to your K8s, for example, if your external IP is `81.70.125.89`:
 
-* Website is http://49.233.120.79:8080
-* Publish RTMP to rtmp://49.233.120.79/live/livestream
-* Play RTMP from rtmp://49.233.120.79/live/livestream
-* Play HTTP-FLV from http://49.233.120.79:8080/live/livestream.flv
-* Play HLS from http://49.233.120.79:8080/live/livestream.m3u8
+* Website is http://81.70.125.89:8080
+* Publish RTMP to rtmp://81.70.125.89/live/livestream
+* Play RTMP from rtmp://81.70.125.89/live/livestream
+* Play HTTP-FLV from http://81.70.125.89:8080/live/livestream.flv
+* Play HLS from http://81.70.125.89:8080/live/livestream.m3u8
 
 Try to motify the [srs.yaml](srs.yaml), then push to your repository, your K8s will be updated automatically.
 
