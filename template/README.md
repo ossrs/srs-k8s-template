@@ -1,6 +1,6 @@
 # %NAME%
 
-![](http://ossrs.net/gif/v1/sls.gif?site=github.com&path=/k8s/ossrs/%NAME%)
+![](http://ossrs.net/gif/v1/sls.gif?site=github.com&path=/k8s/kubernetes/ossrs/%NAME%)
 [![](https://github.com/ossrs/%NAME%/actions/workflows/kubernetes.yml/badge.svg)](https://github.com/ossrs/%NAME%/actions/workflows/kubernetes.yml)
 
 Template repository for deploying SRS to any K8s service by GitHub Actions.
