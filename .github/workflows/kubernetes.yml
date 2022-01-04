@@ -13,7 +13,7 @@ jobs:
     name: release-k8s
     runs-on: ubuntu-20.04
 
-    if: github.event.repository.name != 'srs-k8s-template'
+    #if: github.event.repository.name != 'srs-k8s-template'
     steps:
       - name: Check secrets.KUBECONFIG
         env:
