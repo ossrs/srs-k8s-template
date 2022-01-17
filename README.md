@@ -1,6 +1,6 @@
 # srs-k8s-template
 
-![](http://ossrs.net/gif/v1/sls.gif?site=github.com&path=/k8s/kubernetes/ossrs/srs-k8s-template)
+![](http://ossrs.net/gif/v1/sls.gif?site=github.com&path=/tmpl/k8s/kubernetes/ossrs/srs-k8s-template)
 [![](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml/badge.svg)](https://github.com/ossrs/srs-k8s-template/actions/workflows/kubernetes.yml)
 
 Template repository for deploying SRS to any K8s service by GitHub Actions.
